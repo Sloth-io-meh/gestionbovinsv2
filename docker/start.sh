@@ -1,24 +1,25 @@
 #!/bin/sh
-set -e
 
 cd /app
 
-# Generate app key if not set
+echo "==> Generating app key if missing..."
 if [ -z "$APP_KEY" ]; then
     php artisan key:generate --force
 fi
 
-# Discover packages, cache config and routes
-php artisan package:discover --ansi
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+echo "==> Discovering packages..."
+php artisan package:discover --ansi || true
 
-# Run database migrations
-php artisan migrate --force
+echo "==> Caching config/routes/views..."
+php artisan config:cache || true
+php artisan route:cache || true
+php artisan view:cache  || true
 
-# Create storage symlink
+echo "==> Running migrations..."
+php artisan migrate --force || echo "WARNING: migrate failed — check DB_* env vars"
+
+echo "==> Linking storage..."
 php artisan storage:link 2>/dev/null || true
 
-# Start PHP server (Railway manages the port via $PORT)
+echo "==> Starting server on port ${PORT:-8000}..."
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-8000}"
