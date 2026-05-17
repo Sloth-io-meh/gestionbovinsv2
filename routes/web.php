@@ -37,6 +37,8 @@ Route::middleware(['auth', 'throttle:120,1'])->group(function () {
     Route::post('bovins/{bovin}/mark-sold', [BovinsController::class, 'markSold'])->name('bovins.mark-sold');
     Route::post('bovins/{bovin}/mark-dead', [BovinsController::class, 'markDead'])->name('bovins.mark-dead');
     Route::post('bovins/{bovin}/update-weight', [BovinsController::class, 'updateWeight'])->name('bovins.update-weight');
+    Route::post('bovins/{bovin}/add-quarantine', [BovinsController::class, 'addToQuarantine'])->name('bovins.add-quarantine');
+    Route::post('bovins/{bovin}/remove-quarantine', [BovinsController::class, 'removeFromQuarantine'])->name('bovins.remove-quarantine');
 
     // Stock routes
     Route::resource('stock', StockController::class);

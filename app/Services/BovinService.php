@@ -14,6 +14,8 @@ class BovinService
             'lieuvente'  => $data['lieuvente'],
             'datevente'  => $data['datevente'],
             'vendu'      => true,
+            'id_trans'   => $data['id_trans'] ?? null,
+            'id_veh'     => $data['id_veh'] ?? null,
         ]);
     }
 

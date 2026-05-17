@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\Tansporteur;
+use App\Models\Vehicule;
 
 class Bovin extends Model
 {
@@ -20,7 +22,7 @@ class Bovin extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['race', 'vendu', 'mort', 'poidAct', 'id_etab'])
+            ->logOnly(['race', 'vendu', 'mort', 'poidAct', 'id_etab', 'id_q', 'id_trans', 'id_veh'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }
@@ -41,6 +43,8 @@ class Bovin extends Model
         'id_etab',
         'id_vend',
         'id_q',
+        'id_trans',
+        'id_veh',
         'poidAct',
     ];
 
@@ -83,6 +87,16 @@ class Bovin extends Model
         return $this->hasMany(Visite::class, 'id_bov', 'id_bov');
     }
 
+    public function tansporteur()
+    {
+        return $this->belongsTo(Tansporteur::class, 'id_trans', 'id_trans');
+    }
+
+    public function vehicule()
+    {
+        return $this->belongsTo(Vehicule::class, 'id_veh', 'id_veh');
+    }
+
     // Scopes
     public function scopeActive($query)
     {
@@ -101,8 +115,6 @@ class Bovin extends Model
 
     public function scopeInQuarantine($query)
     {
-        return $query->whereIn('id_q', function ($subQuery) {
-            $subQuery->select('id_q')->from('quarantaines')->where('libelle', 'true');
-        });
+        return $query->whereNotNull('id_q');
     }
 }

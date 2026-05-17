@@ -49,7 +49,13 @@
                         </dd>
 
                         <dt class="col-sm-4">Quarantaine:</dt>
-                        <dd class="col-sm-8">{{ $bovin->quarantaine?->libelle ?? '-' }}</dd>
+                        <dd class="col-sm-8">
+                            @if($bovin->quarantaine)
+                                <span class="badge bg-warning text-dark">{{ $bovin->quarantaine->libelle }}</span>
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </dd>
                     </dl>
                 </div>
             </div>
@@ -99,6 +105,28 @@
 
                         <dt class="col-sm-4">Poids:</dt>
                         <dd class="col-sm-8">{{ $bovin->poidvente ?? '-' }} kg</dd>
+
+                        <dt class="col-sm-4">Transporteur:</dt>
+                        <dd class="col-sm-8">
+                            @if($bovin->tansporteur)
+                                {{ $bovin->tansporteur->prenom }} {{ $bovin->tansporteur->nom }}
+                                ({{ $bovin->tansporteur->tel }})
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </dd>
+
+                        <dt class="col-sm-4">Véhicule:</dt>
+                        <dd class="col-sm-8">
+                            @if($bovin->vehicule)
+                                {{ $bovin->vehicule->Matricule }}
+                                @if($bovin->vehicule->type)
+                                    — {{ $bovin->vehicule->type }}
+                                @endif
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </dd>
                     </dl>
                 </div>
             </div>
@@ -223,11 +251,20 @@
 
     <!-- Actions -->
     <div class="card mt-4">
-        <div class="card-body">
+        <div class="card-body d-flex flex-wrap gap-2">
             @can('update', $bovin)
                 @if(!$bovin->vendu && !$bovin->mort)
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#markSoldModal">💰 Marquer comme vendu</button>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#markDeadModal">☠️ Marquer comme décédé</button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#markSoldModal">💰 Marquer comme vendu</button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#markDeadModal">☠️ Marquer comme décédé</button>
+
+                    @if($bovin->quarantaine)
+                        <form method="POST" action="{{ route('bovins.remove-quarantine', $bovin) }}" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-warning" onclick="return confirm('Retirer de la quarantaine ?')">🟡 Retirer de la quarantaine</button>
+                        </form>
+                    @else
+                        <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#addQuarantineModal">🔒 Mettre en quarantaine</button>
+                    @endif
                 @endif
             @endcan
 
@@ -268,6 +305,34 @@
                         <label class="form-label">Poids à la Vente</label>
                         <input type="number" name="poidvente" class="form-control" step="0.1" required>
                     </div>
+
+                    <hr>
+                    <p class="text-muted small mb-2">Transport (optionnel)</p>
+
+                    <div class="mb-3">
+                        <label class="form-label">Transporteur</label>
+                        <select name="id_trans" id="transporteurSelect" class="form-select">
+                            <option value="">— Aucun —</option>
+                            @foreach($tansporteurs as $trans)
+                                <option value="{{ $trans->id_trans }}">
+                                    {{ $trans->prenom }} {{ $trans->nom }} ({{ $trans->cin_t }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Véhicule</label>
+                        <select name="id_veh" id="vehiculeSelect" class="form-select">
+                            <option value="">— Aucun —</option>
+                            @foreach($tansporteurs as $trans)
+                                @foreach($trans->vehicules as $veh)
+                                    <option value="{{ $veh->id_veh }}" data-trans="{{ $trans->id_trans }}">
+                                        {{ $veh->Matricule }}@if($veh->type) — {{ $veh->type }}@endif
+                                    </option>
+                                @endforeach
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -302,4 +367,54 @@
         </div>
     </div>
 </div>
+
+<!-- Add Quarantine Modal -->
+<div class="modal fade" id="addQuarantineModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ route('bovins.add-quarantine', $bovin) }}">
+                @csrf
+                <div class="modal-header">
+                    <h5>Mettre en quarantaine</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Type de quarantaine</label>
+                        <select name="id_q" class="form-select" required>
+                            <option value="">— Sélectionner —</option>
+                            @foreach($quarantaines as $q)
+                                <option value="{{ $q->id_q }}">{{ $q->libelle }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if($quarantaines->isEmpty())
+                        <p class="text-warning small">Aucune quarantaine définie. <a href="{{ route('quarantaines.create') }}">Créer une quarantaine</a></p>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-warning" @if($quarantaines->isEmpty()) disabled @endif>Confirmer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+    // Filter vehicles by selected transporter
+    const transporteurSelect = document.getElementById('transporteurSelect');
+    const vehiculeSelect = document.getElementById('vehiculeSelect');
+    const allVehiculeOptions = Array.from(vehiculeSelect.querySelectorAll('option[data-trans]'));
+
+    transporteurSelect.addEventListener('change', function () {
+        const selectedTrans = this.value;
+        allVehiculeOptions.forEach(opt => {
+            opt.hidden = selectedTrans && opt.dataset.trans !== selectedTrans;
+        });
+        vehiculeSelect.value = '';
+    });
+</script>
+@endpush
 @endsection

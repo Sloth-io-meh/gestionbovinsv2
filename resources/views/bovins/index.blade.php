@@ -21,6 +21,7 @@
                 <option value="active" @selected(request('status') === 'active')>Actifs</option>
                 <option value="sold" @selected(request('status') === 'sold')>Vendus</option>
                 <option value="dead" @selected(request('status') === 'dead')>Décédés</option>
+                <option value="quarantine" @selected(request('status') === 'quarantine')>En quarantaine</option>
             </select>
         </div>
         <div class="col-md-3">
@@ -68,6 +69,9 @@
                                 <span class="badge bg-danger text-white rounded-pill">Décédé</span>
                             @else
                                 <span class="badge bg-success text-white rounded-pill">Actif</span>
+                            @endif
+                            @if($bovin->quarantaine)
+                                <span class="badge bg-warning text-dark rounded-pill">🔒 {{ $bovin->quarantaine->libelle }}</span>
                             @endif
                         </td>
                         <td>

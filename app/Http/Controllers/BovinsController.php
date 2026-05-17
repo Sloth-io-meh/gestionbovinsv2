@@ -6,6 +6,7 @@ use App\Models\Bovin;
 use App\Models\Etable;
 use App\Models\Vendeur;
 use App\Models\Quarantaine;
+use App\Models\Tansporteur;
 use App\Http\Requests\StoreBovinRequest;
 use App\Http\Requests\UpdateBovinRequest;
 use App\Services\BovinService;
@@ -32,6 +33,8 @@ class BovinsController extends Controller
             $query = $query->sold();
         } elseif ($request->has('status') && $request->status === 'dead') {
             $query = $query->dead();
+        } elseif ($request->has('status') && $request->status === 'quarantine') {
+            $query = $query->inQuarantine();
         }
 
         // Filter by farm
@@ -75,9 +78,11 @@ class BovinsController extends Controller
      */
     public function show(Bovin $bovin)
     {
-        $bovin = $bovin->load(['etable', 'vendeur', 'quarantaine', 'nourriture', 'medicsconsumed', 'visites']);
+        $bovin = $bovin->load(['etable', 'vendeur', 'quarantaine', 'tansporteur', 'vehicule', 'nourriture', 'medicsconsumed', 'visites']);
+        $quarantaines = Quarantaine::all();
+        $tansporteurs = Tansporteur::with('vehicules')->get();
 
-        return view('bovins.show', compact('bovin'));
+        return view('bovins.show', compact('bovin', 'quarantaines', 'tansporteurs'));
     }
 
     /**
@@ -128,6 +133,8 @@ class BovinsController extends Controller
             'poidvente'  => ['required', 'numeric', 'min:0'],
             'lieuvente'  => ['required', 'string', 'max:255'],
             'datevente'  => ['required', 'date'],
+            'id_trans'   => ['nullable', 'exists:tansporteurs,id_trans'],
+            'id_veh'     => ['nullable', 'exists:vehicules,id_veh'],
         ]);
 
         $this->bovinService->markSold($bovin, $validated);
@@ -135,6 +142,32 @@ class BovinsController extends Controller
         return redirect()
             ->route('bovins.show', $bovin)
             ->with('success', 'Animal marqué comme vendu');
+    }
+
+    public function addToQuarantine(Request $request, Bovin $bovin)
+    {
+        $this->authorize('update', $bovin);
+
+        $validated = $request->validate([
+            'id_q' => ['required', 'exists:quarantaines,id_q'],
+        ]);
+
+        $bovin->update(['id_q' => $validated['id_q']]);
+
+        return redirect()
+            ->route('bovins.show', $bovin)
+            ->with('success', 'Animal mis en quarantaine');
+    }
+
+    public function removeFromQuarantine(Bovin $bovin)
+    {
+        $this->authorize('update', $bovin);
+
+        $bovin->update(['id_q' => null]);
+
+        return redirect()
+            ->route('bovins.show', $bovin)
+            ->with('success', 'Animal retiré de la quarantaine');
     }
 
     public function markDead(Request $request, Bovin $bovin)
