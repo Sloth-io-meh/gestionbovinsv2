@@ -8,48 +8,25 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SecurityHeaders
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
 
-        // 1. Strict-Transport-Security (HSTS)
-        // Force HTTPS for 1 year, include subdomains
-        $response->header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-
-        // 2. Content-Security-Policy (CSP)
-        // Restrict where scripts, styles, images, and other resources can be loaded from
-        $response->header('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data: https://fonts.bunny.net; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;");
-
-        // 3. X-Frame-Options
-        // Prevent clickjacking attacks by disallowing framing
-        $response->header('X-Frame-Options', 'DENY');
-
-        // 4. X-Content-Type-Options
-        // Prevent MIME sniffing attacks
-        $response->header('X-Content-Type-Options', 'nosniff');
-
-        // 5. Referrer-Policy
-        // Control how much referrer information is shared
-        $response->header('Referrer-Policy', 'strict-origin-when-cross-origin');
-
-        // 6. Permissions-Policy
-        // Restrict access to sensitive browser features
-        $response->header('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), magnetometer=(), gyroscope=(), accelerometer=(), payment=()');
-
-        // Remove X-Powered-By header (reveals PHP version to attackers).
-        // header_remove() suppresses PHP's native header emission; the
-        // response-object removal handles any header set by Laravel itself.
         header_remove('X-Powered-By');
         $response->headers->remove('X-Powered-By');
 
-        // Additional security headers
-        // X-XSS-Protection (legacy, but doesn't hurt)
-        $response->header('X-XSS-Protection', '1; mode=block');
+        $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+        $response->headers->set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data: https://fonts.bunny.net; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;");
+        $response->headers->set('X-Frame-Options', 'DENY');
+        $response->headers->set('X-Content-Type-Options', 'nosniff');
+        $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+        $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), magnetometer=(), gyroscope=(), accelerometer=(), payment=()');
+        $response->headers->set('X-XSS-Protection', '1; mode=block');
+
+        // Cross-origin isolation headers
+        $response->headers->set('Cross-Origin-Opener-Policy', 'same-origin');
+        $response->headers->set('Cross-Origin-Embedder-Policy', 'unsafe-none');
+        $response->headers->set('Cross-Origin-Resource-Policy', 'same-origin');
 
         return $response;
     }
