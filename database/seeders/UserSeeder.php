@@ -24,7 +24,8 @@ class UserSeeder extends Seeder
                 'code' => '40040',
                 'tel' => '0674276262',
                 'email' => 'saadlk1997@gmail.com',
-                'password' => Hash::make('1234'), // Hash the original password
+                'password' => Hash::make('1234'),
+                'is_admin' => true,
                 'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
