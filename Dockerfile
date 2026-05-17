@@ -22,8 +22,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy composer files first (layer cache)
-COPY composer.json composer.lock ./
+# Copy composer files + artisan (post-autoload hook needs artisan to exist)
+COPY composer.json composer.lock artisan ./
 RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress
 
 # Copy package files and build frontend assets
