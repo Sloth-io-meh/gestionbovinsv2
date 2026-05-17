@@ -10,8 +10,7 @@ fi
 echo "==> Discovering packages..."
 php artisan package:discover --ansi || true
 
-echo "==> Caching config/routes/views..."
-php artisan config:cache || true
+echo "==> Caching routes/views (config NOT cached — reads live env vars)..."
 php artisan route:cache || true
 php artisan view:cache  || true
 
