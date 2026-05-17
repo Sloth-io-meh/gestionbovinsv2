@@ -1,0 +1,12 @@
+[phases.install]
+cmds = [
+  "composer install --no-dev --optimize-autoloader --no-scripts",
+  "composer dump-autoload --optimize",
+  "npm ci --omit=dev"
+]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "sh docker/start.sh"
