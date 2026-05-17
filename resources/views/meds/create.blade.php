@@ -28,8 +28,14 @@
                         <input type="number" name="prix_med" class="form-control" step="0.01" required>
                     </div>
                     <div class="col-md-3 mb-3">
+                        <label class="form-label">Date d'achat <span class="text-danger">*</span></label>
+                        <input type="date" name="dateachat" class="form-control @error('dateachat') is-invalid @enderror" value="{{ old('dateachat') }}" required>
+                        @error('dateachat')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="col-md-3 mb-3">
                         <label class="form-label">Date Expiration <span class="text-danger">*</span></label>
-                        <input type="date" name="dateexp_med" class="form-control" required>
+                        <input type="date" name="dateexp_med" class="form-control @error('dateexp_med') is-invalid @enderror" value="{{ old('dateexp_med') }}" required>
+                        @error('dateexp_med')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">💾 Créer</button>

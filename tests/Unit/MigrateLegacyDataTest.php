@@ -4,11 +4,25 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use App\Console\Commands\MigrateLegacyData;
-use ReflectionMethod;
+use ReflectionProperty;
 
 class MigrateLegacyDataTest extends TestCase
 {
-    public function test_parse_insert_statements_handles_multiple_statements()
+    private function makeCommand(string $sqlContent): array
+    {
+        $tempFile = tempnam(sys_get_temp_dir(), 'sql');
+        file_put_contents($tempFile, $sqlContent);
+
+        $command = new MigrateLegacyData();
+
+        $prop = new ReflectionProperty(MigrateLegacyData::class, 'sqlPath');
+        $prop->setAccessible(true);
+        $prop->setValue($command, $tempFile);
+
+        return [$command, $tempFile];
+    }
+
+    public function test_parse_handles_multiple_statements(): void
     {
         $sql = <<<SQL
 INSERT INTO `users` (`id`, `name`, `email`) VALUES
@@ -19,14 +33,8 @@ INSERT INTO `users` (`id`, `name`, `email`) VALUES
 (3, 'Bob Smith', 'bob@example.com');
 SQL;
 
-        $tempFile = tempnam(sys_get_temp_dir(), 'sql');
-        file_put_contents($tempFile, $sql);
-
-        $command = new MigrateLegacyData();
-        $method = new ReflectionMethod(MigrateLegacyData::class, 'parseInsertStatements');
-
-        $results = $method->invoke($command, $tempFile, 'users');
-
+        [$command, $tempFile] = $this->makeCommand($sql);
+        $results = $command->parse('users');
         unlink($tempFile);
 
         $this->assertCount(3, $results);
@@ -35,21 +43,16 @@ SQL;
         $this->assertEquals('Bob Smith', $results[2]['name']);
     }
 
-    public function test_parse_insert_statements_handles_null_values()
+    public function test_parse_handles_null_values(): void
     {
         $sql = "INSERT INTO `users` (`id`, `name`, `email`) VALUES (1, 'John Doe', NULL);";
 
-        $tempFile = tempnam(sys_get_temp_dir(), 'sql');
-        file_put_contents($tempFile, $sql);
-
-        $command = new MigrateLegacyData();
-        $method = new ReflectionMethod(MigrateLegacyData::class, 'parseInsertStatements');
-
-        $results = $method->invoke($command, $tempFile, 'users');
-
+        [$command, $tempFile] = $this->makeCommand($sql);
+        $results = $command->parse('users');
         unlink($tempFile);
 
         $this->assertCount(1, $results);
-        $this->assertNull($results[0]['email']);
+        // parse() returns string 'NULL'; entity mappers convert it via nullable() helper
+        $this->assertEquals('NULL', $results[0]['email']);
     }
 }

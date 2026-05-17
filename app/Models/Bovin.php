@@ -22,7 +22,7 @@ class Bovin extends Model
         return LogOptions::defaults()
             ->logOnly(['race', 'vendu', 'mort', 'poidAct', 'id_etab'])
             ->logOnlyDirty()
-            ->dontLogEmptyChanges();
+            ->dontSubmitEmptyLogs();
     }
 
     protected $fillable = [

@@ -41,7 +41,7 @@ Route::middleware(['auth', 'throttle:120,1'])->group(function () {
     Route::post('stock/{stock}/deduct', [StockController::class, 'deduct'])->name('stock.deduct');
 
     // Meds routes
-    Route::resource('meds', MedsController::class);
+    Route::resource('meds', MedsController::class)->parameters(['meds' => 'meds']);
     Route::post('meds/{meds}/deduct', [MedsController::class, 'deduct'])->name('meds.deduct');
 
     // Visites (Vet Visits) routes

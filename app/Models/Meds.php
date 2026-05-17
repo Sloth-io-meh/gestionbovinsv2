@@ -22,7 +22,7 @@ class Meds extends Model
         return LogOptions::defaults()
             ->logOnly(['quantite_med', 'prix_med'])
             ->logOnlyDirty()
-            ->dontLogEmptyChanges();
+            ->dontSubmitEmptyLogs();
     }
 
     protected $fillable = [
@@ -38,12 +38,6 @@ class Meds extends Model
         'dateachat' => 'date',
         'dateexp_med' => 'date',
     ];
-
-    // Relationships
-    public function medicsconsumed()
-    {
-        return $this->hasMany(Medicsconsumed::class, 'id_med', 'id_med');
-    }
 
     // Scopes
     public function scopeLowStock($query)

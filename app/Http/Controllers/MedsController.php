@@ -64,8 +64,6 @@ class MedsController extends Controller
      */
     public function show(Meds $meds)
     {
-        $meds = $meds->load('medicsconsumed');
-
         return view('meds.show', compact('meds'));
     }
 
