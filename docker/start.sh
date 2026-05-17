@@ -23,7 +23,7 @@ php artisan storage:link 2>/dev/null || true
 
 echo "==> Rendering nginx config for port ${PORT:-8080}..."
 export NGINX_PORT="${PORT:-8080}"
-envsubst '${NGINX_PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
+envsubst '${NGINX_PORT}' < /etc/nginx/http.d/default.conf.template > /etc/nginx/http.d/default.conf
 
 echo "==> Creating runtime dirs (tmpfs is wiped on each start)..."
 mkdir -p /run/nginx /var/log/nginx /var/log/supervisor
