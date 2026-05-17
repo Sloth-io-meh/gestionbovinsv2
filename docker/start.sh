@@ -18,6 +18,9 @@ php artisan view:cache  || true
 echo "==> Running migrations..."
 php artisan migrate --force || echo "WARNING: migrate failed — check DB_* env vars"
 
+echo "==> Seeding legacy data if tables are empty..."
+php artisan tinker --execute="if(DB::table('bovins')->count()==0){Artisan::call('db:seed',['--class'=>'LegacyDataSeeder','--force'=>true]);echo 'Seeded!';}else{echo 'Already seeded, skipping.';}" 2>&1 || true
+
 echo "==> Linking storage..."
 php artisan storage:link 2>/dev/null || true
 
