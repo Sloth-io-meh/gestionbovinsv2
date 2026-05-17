@@ -12,11 +12,10 @@ class Stock extends Model
 
     protected $table = 'stocks';
     protected $primaryKey = 'id_stock';
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
-        'id_stock',
         'libelle_st',
         'description_s',
         'quantite_s',

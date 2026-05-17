@@ -7,8 +7,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Activitylog\Support\LogOptions;
-use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
@@ -19,8 +19,7 @@ class User extends Authenticatable
     {
         return LogOptions::defaults()
             ->logOnly(['email', 'nom', 'prenom', 'is_admin'])
-            ->logOnlyDirty()
-            ->dontLogEmptyChanges();
+            ->logOnlyDirty();
     }
 
     protected $table = 'users';
@@ -33,7 +32,6 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'id',
         'name',
         'nom',
         'prenom',
@@ -57,16 +55,13 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string,string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'is_admin' => 'boolean',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_admin' => 'boolean',
+    ];
 }

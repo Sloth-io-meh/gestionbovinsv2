@@ -12,11 +12,10 @@ class Vendeur extends Model
 
     protected $table = 'vendeurs';
     protected $primaryKey = 'id_vend';
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
-        'id_vend',
         'nom_vend',
         'prenom_vend',
         'tel_vend',

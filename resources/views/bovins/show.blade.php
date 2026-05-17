@@ -4,10 +4,17 @@
 
 @section('content')
 <div class="container-fluid">
+    <x-breadcrumbs :items="[
+        '🐄 Bovins' => route('bovins.index'),
+        'Animal #' . $bovin->id_bov => route('bovins.show', $bovin),
+    ]" />
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>🐄 Bovin #{{ $bovin->id_bov }}</h2>
         <div>
-            <a href="{{ route('bovins.edit', $bovin) }}" class="btn btn-warning">✏️ Modifier</a>
+            @can('update', $bovin)
+                <a href="{{ route('bovins.edit', $bovin) }}" class="btn btn-warning">✏️ Modifier</a>
+            @endcan
             <a href="{{ route('bovins.index') }}" class="btn btn-secondary">← Retour</a>
         </div>
     </div>
@@ -217,21 +224,19 @@
     <!-- Actions -->
     <div class="card mt-4">
         <div class="card-body">
-            @if(!$bovin->vendu && !$bovin->mort)
-            <form method="POST" action="{{ route('bovins.mark-sold', $bovin) }}" style="display: inline;">
-                @csrf
+            @can('update', $bovin)
+                @if(!$bovin->vendu && !$bovin->mort)
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#markSoldModal">💰 Marquer comme vendu</button>
-            </form>
-            <form method="POST" action="{{ route('bovins.mark-dead', $bovin) }}" style="display: inline;">
-                @csrf
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#markDeadModal">☠️ Marquer comme décédé</button>
-            </form>
-            @endif
+                @endif
+            @endcan
 
-            <form method="POST" action="{{ route('bovins.destroy', $bovin) }}" style="display: inline;">
-                @csrf @method('DELETE')
-                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Êtes-vous sûr?')">🗑️ Supprimer</button>
-            </form>
+            @can('delete', $bovin)
+                <form method="POST" action="{{ route('bovins.destroy', $bovin) }}" style="display: inline;">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Êtes-vous sûr?')">🗑️ Supprimer</button>
+                </form>
+            @endcan
         </div>
     </div>
 </div>
@@ -297,6 +302,4 @@
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

@@ -22,3 +22,10 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+# SQLite databases
+*.sqlite
+*.sqlite3
+gestionbovins
+# OS & editor artifacts
+*.swp
+*.swo

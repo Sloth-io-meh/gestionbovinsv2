@@ -1,17 +1,20 @@
-# Multi-stage build for Laravel application
-FROM php:8.2-fpm-alpine as php
+FROM php:8.2-fpm-alpine
 
-# Install system dependencies
+# Install system dependencies and PHP extensions
 RUN apk add --no-cache \
+    nginx \
+    supervisor \
     curl \
     libzip-dev \
     mysql-client \
+    nodejs \
+    npm \
     git \
     && docker-php-ext-install -j$(nproc) \
-    pdo \
-    pdo_mysql \
-    zip \
-    bcmath \
+        pdo \
+        pdo_mysql \
+        zip \
+        bcmath \
     && rm -rf /var/cache/apk/*
 
 # Install Composer
@@ -19,54 +22,31 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy composer files
+# Copy composer files first (layer cache)
 COPY composer.json composer.lock ./
+RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress
 
-# Install PHP dependencies
-RUN composer install \
-    --optimize-autoloader \
-    --no-dev \
-    --no-interaction \
-    --no-progress
+# Copy package files and build frontend assets
+COPY package.json package-lock.json vite.config.js postcss.config.js tailwind.config.js ./
+RUN npm ci --omit=dev
+COPY resources ./resources
+COPY public ./public
+RUN npm run build
 
-# Copy application code
+# Copy remaining application code
 COPY . .
 
-# Set proper permissions
+# Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
-# Generate app key
-RUN php artisan key:generate --force || true
-
-# Create symbolic link for storage
-RUN php artisan storage:link || true
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:9000 || exit 1
-
-EXPOSE 9000
-
-CMD ["php-fpm"]
-
----
-
-# Nginx web server
-FROM nginx:alpine
-
-WORKDIR /var/www/html
-
-# Copy nginx configuration
+# Copy service configurations
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/start.sh /start.sh
+RUN chmod +x /start.sh
 
-# Copy application from PHP stage
-COPY --from=php /var/www/html /var/www/html
+EXPOSE 80
 
-# Set permissions
-RUN chown -R nginx:nginx /var/www/html
-
-EXPOSE 80 443
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/start.sh"]

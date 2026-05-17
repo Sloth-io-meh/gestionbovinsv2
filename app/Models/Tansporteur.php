@@ -12,11 +12,10 @@ class Tansporteur extends Model
 
     protected $table = 'tansporteurs';
     protected $primaryKey = 'id_trans';
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
-        'id_trans',
         'cin_t',
         'nom',
         'prenom',

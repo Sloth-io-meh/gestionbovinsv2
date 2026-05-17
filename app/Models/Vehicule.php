@@ -12,11 +12,10 @@ class Vehicule extends Model
 
     protected $table = 'vehicules';
     protected $primaryKey = 'id_veh';
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
-        'id_veh',
         'Matricule',
         'type',
         'id_trans',

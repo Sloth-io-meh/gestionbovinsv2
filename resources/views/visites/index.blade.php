@@ -4,9 +4,13 @@
 
 @section('content')
 <div class="container-fluid">
+    <x-breadcrumbs :items="['🏥 Visites' => route('visites.index')]" />
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>🏥 Visites Vétérinaires</h2>
+        @can('create', App\Models\Visite::class)
         <a href="{{ route('visites.create') }}" class="btn btn-primary">+ Ajouter</a>
+        @endcan
     </div>
 
     <div class="card">
@@ -31,12 +35,18 @@
                         <td>{{ $visite->prix_pres ? number_format($visite->prix_pres, 2) . ' €' : '-' }}</td>
                         <td>{{ Str::limit($visite->description_v, 50) }}</td>
                         <td>
-                            <a href="{{ route('visites.show', $visite) }}" class="btn btn-sm btn-info">👁️</a>
-                            <a href="{{ route('visites.edit', $visite) }}" class="btn btn-sm btn-warning">✏️</a>
-                            <form method="POST" action="{{ route('visites.destroy', $visite) }}" style="display:inline;">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-sm btn-danger" onclick="return confirm('Supprimer?')">🗑️</button>
-                            </form>
+                            <div class="btn-group btn-group-sm">
+                                <a href="{{ route('visites.show', $visite) }}" class="btn btn-info">👁️</a>
+                                @can('update', $visite)
+                                <a href="{{ route('visites.edit', $visite) }}" class="btn btn-warning">✏️</a>
+                                @endcan
+                                @can('delete', $visite)
+                                <form method="POST" action="{{ route('visites.destroy', $visite) }}" style="display:inline;">
+                                    @csrf @method('DELETE')
+                                    <button class="btn btn-danger" onclick="return confirm('Supprimer?')">🗑️</button>
+                                </form>
+                                @endcan
+                            </div>
                         </td>
                     </tr>
                     @empty
@@ -45,6 +55,10 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+        {{ $visites->links('pagination::bootstrap-5') }}
     </div>
 </div>
 @endsection

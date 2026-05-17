@@ -41,10 +41,11 @@ class SecurityHeaders
         // Restrict access to sensitive browser features
         $response->header('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), magnetometer=(), gyroscope=(), accelerometer=(), payment=()');
 
-        // Remove X-Powered-By header (reveals PHP version to attackers)
-        if ($response->headers->has('X-Powered-By')) {
-            $response->headers->remove('X-Powered-By');
-        }
+        // Remove X-Powered-By header (reveals PHP version to attackers).
+        // header_remove() suppresses PHP's native header emission; the
+        // response-object removal handles any header set by Laravel itself.
+        header_remove('X-Powered-By');
+        $response->headers->remove('X-Powered-By');
 
         // Additional security headers
         // X-XSS-Protection (legacy, but doesn't hurt)

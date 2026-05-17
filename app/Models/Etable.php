@@ -12,11 +12,10 @@ class Etable extends Model
 
     protected $table = 'etables';
     protected $primaryKey = 'id_etab';
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
-        'id_etab',
         'nom',
     ];
 

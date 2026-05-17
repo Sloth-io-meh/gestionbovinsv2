@@ -4,10 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Stock;
 use App\Http\Requests\StoreStockRequest;
+use App\Http\Requests\UpdateStockRequest;
+use App\Services\InventoryService;
 use Illuminate\Http\Request;
 
 class StockController extends Controller
 {
+    public function __construct(private InventoryService $inventoryService)
+    {
+        $this->authorizeResource(Stock::class, 'stock');
+    }
+
     /**
      * Display a listing of stock items.
      */
@@ -71,18 +78,9 @@ class StockController extends Controller
     /**
      * Update the specified stock item in storage.
      */
-    public function update(Request $request, Stock $stock)
+    public function update(UpdateStockRequest $request, Stock $stock)
     {
-        $validated = $request->validate([
-            'libelle_st' => ['sometimes', 'string', 'max:255'],
-            'description_s' => ['sometimes', 'string', 'max:1000'],
-            'quantite_s' => ['sometimes', 'integer', 'min:1'],
-            'quantiteAct' => ['sometimes', 'integer', 'min:0'],
-            'prix_s' => ['sometimes', 'numeric', 'min:0'],
-            'dateexp_s' => ['sometimes', 'date'],
-        ]);
-
-        $stock->update($validated);
+        $stock->update($request->validated());
 
         return redirect()
             ->route('stock.show', $stock)
@@ -106,11 +104,13 @@ class StockController extends Controller
      */
     public function deduct(Request $request, Stock $stock)
     {
+        $this->authorize('update', $stock);
+
         $validated = $request->validate([
             'quantity' => ['required', 'integer', 'min:1', 'max:' . $stock->quantiteAct],
         ]);
 
-        $stock->decrement('quantiteAct', $validated['quantity']);
+        $this->inventoryService->deductStock($stock, $validated['quantity']);
 
         return redirect()
             ->route('stock.show', $stock)

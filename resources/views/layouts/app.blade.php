@@ -42,6 +42,18 @@
             .badge-active { background-color: #28a745; }
             .badge-sold { background-color: #17a2b8; }
             .badge-dead { background-color: #dc3545; }
+            .badge-status {
+                display: inline-block;
+                padding: .35em .65em;
+                font-size: .75em;
+                font-weight: 700;
+                line-height: 1;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: baseline;
+                border-radius: 50rem;
+                color: white;
+            }
         </style>
 
         @yield('styles')
@@ -52,6 +64,11 @@
                 <!-- Sidebar -->
                 <div class="col-md-2 sidebar">
                     <h4 class="mb-4">🐄 GestionBovins</h4>
+                    @auth
+                    <div class="mb-3 px-3 small text-white-50">
+                        👤 {{ auth()->user()->name }}
+                    </div>
+                    @endauth
                     <nav class="nav flex-column">
                         <a href="{{ route('dashboard') }}" class="nav-link @if(Route::currentRouteName() == 'dashboard') active @endif">📊 Dashboard</a>
                         <a href="{{ route('bovins.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'bovins')) active @endif">🐄 Bovins</a>
@@ -59,7 +76,20 @@
                         <a href="{{ route('meds.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'meds')) active @endif">💊 Médicaments</a>
                         <a href="{{ route('visites.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'visites')) active @endif">🏥 Visites</a>
                         <hr class="bg-light">
-                        <a href="{{ route('profile.edit') }}" class="nav-link">⚙️ Profil</a>
+                        <p class="small text-uppercase px-3 mb-2 opacity-50">Gestion</p>
+                        <a href="{{ route('etables.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'etables')) active @endif">🏠 Étables</a>
+                        <a href="{{ route('vendeurs.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'vendeurs')) active @endif">🤝 Vendeurs</a>
+                        <a href="{{ route('vetos.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'vetos')) active @endif">🩺 Vétos</a>
+                        <a href="{{ route('tansporteurs.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'tansporteurs')) active @endif">🚛 Transporteurs</a>
+                        <a href="{{ route('vehicules.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'vehicules')) active @endif">🚗 Véhicules</a>
+                        <a href="{{ route('quarantaines.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'quarantaines')) active @endif">🛡️ Quarantaines</a>
+                        @can('admin')
+                        <hr class="bg-light">
+                        <p class="small text-uppercase px-3 mb-2 opacity-50">Administration</p>
+                        <a href="{{ route('users.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'users')) active @endif">👥 Utilisateurs</a>
+                        <a href="{{ route('logs.index') }}" class="nav-link @if(str_starts_with(Route::currentRouteName(), 'logs')) active @endif">📋 Logs</a>
+                        @endcan
+                        <hr class="bg-light">
                         <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                             @csrf
                             <button type="submit" class="nav-link" style="border: none; background: none; width: 100%; text-align: left;">🚪 Déconnexion</button>

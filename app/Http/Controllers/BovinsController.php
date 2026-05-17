@@ -8,10 +8,16 @@ use App\Models\Vendeur;
 use App\Models\Quarantaine;
 use App\Http\Requests\StoreBovinRequest;
 use App\Http\Requests\UpdateBovinRequest;
+use App\Services\BovinService;
 use Illuminate\Http\Request;
 
 class BovinsController extends Controller
 {
+    public function __construct(private BovinService $bovinService)
+    {
+        $this->authorizeResource(Bovin::class, 'bovin');
+    }
+
     /**
      * Display a listing of bovins.
      */
@@ -115,52 +121,46 @@ class BovinsController extends Controller
      */
     public function markSold(Request $request, Bovin $bovin)
     {
+        $this->authorize('update', $bovin);
+
         $validated = $request->validate([
             'prixavente' => ['required', 'numeric', 'min:0'],
-            'poidvente' => ['required', 'numeric', 'min:0'],
-            'lieuvente' => ['required', 'string', 'max:255'],
-            'datevente' => ['required', 'date'],
+            'poidvente'  => ['required', 'numeric', 'min:0'],
+            'lieuvente'  => ['required', 'string', 'max:255'],
+            'datevente'  => ['required', 'date'],
         ]);
 
-        $bovin->update([
-            ...$validated,
-            'vendu' => true,
-        ]);
+        $this->bovinService->markSold($bovin, $validated);
 
         return redirect()
             ->route('bovins.show', $bovin)
             ->with('success', 'Animal marqué comme vendu');
     }
 
-    /**
-     * Mark bovin as dead.
-     */
     public function markDead(Request $request, Bovin $bovin)
     {
+        $this->authorize('update', $bovin);
+
         $validated = $request->validate([
             'datemort' => ['required', 'date'],
         ]);
 
-        $bovin->update([
-            ...$validated,
-            'mort' => true,
-        ]);
+        $this->bovinService->markDead($bovin, $validated['datemort']);
 
         return redirect()
             ->route('bovins.show', $bovin)
             ->with('success', 'Animal marqué comme mort');
     }
 
-    /**
-     * Update current weight.
-     */
     public function updateWeight(Request $request, Bovin $bovin)
     {
+        $this->authorize('update', $bovin);
+
         $validated = $request->validate([
             'poidAct' => ['required', 'numeric', 'min:0'],
         ]);
 
-        $bovin->update($validated);
+        $this->bovinService->updateWeight($bovin, $validated['poidAct']);
 
         return redirect()
             ->route('bovins.show', $bovin)

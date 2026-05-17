@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Meds;
 use App\Http\Requests\StoreMedsRequest;
 use App\Http\Requests\UpdateMedsRequest;
+use App\Services\InventoryService;
 use Illuminate\Http\Request;
 
 class MedsController extends Controller
 {
+    public function __construct(private InventoryService $inventoryService)
+    {
+        $this->authorizeResource(Meds::class, 'meds');
+    }
+
     /**
      * Display a listing of medicines.
      */
@@ -100,11 +106,13 @@ class MedsController extends Controller
      */
     public function deduct(Request $request, Meds $meds)
     {
+        $this->authorize('update', $meds);
+
         $validated = $request->validate([
             'quantity' => ['required', 'integer', 'min:1', 'max:' . $meds->quantite_med],
         ]);
 
-        $meds->decrement('quantite_med', $validated['quantity']);
+        $this->inventoryService->deductMeds($meds, $validated['quantity']);
 
         return redirect()
             ->route('meds.show', $meds)

@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Support\LogOptions;
-use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Visite extends Model
 {
@@ -14,7 +14,7 @@ class Visite extends Model
 
     protected $table = 'visites';
     protected $primaryKey = 'id_pres';
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = true;
 
     public function getActivitylogOptions(): LogOptions
@@ -26,7 +26,6 @@ class Visite extends Model
     }
 
     protected $fillable = [
-        'id_pres',
         'description_v',
         'datepres',
         'prix_pres',

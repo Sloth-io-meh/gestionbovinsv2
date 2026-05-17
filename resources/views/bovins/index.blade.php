@@ -4,9 +4,13 @@
 
 @section('content')
 <div class="container-fluid">
+    <x-breadcrumbs :items="['🐄 Bovins' => route('bovins.index')]" />
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>🐄 Gestion des Bovins</h2>
+        @can('create', App\Models\Bovin::class)
         <a href="{{ route('bovins.create') }}" class="btn btn-primary">+ Ajouter un Animal</a>
+        @endcan
     </div>
 
     <!-- Filters -->
@@ -59,21 +63,25 @@
                         <td>{{ $bovin->etable?->nom ?? '-' }}</td>
                         <td>
                             @if($bovin->vendu)
-                                <span class="badge-status badge-sold">Vendu</span>
+                                <span class="badge bg-info text-white rounded-pill">Vendu</span>
                             @elseif($bovin->mort)
-                                <span class="badge-status badge-dead">Décédé</span>
+                                <span class="badge bg-danger text-white rounded-pill">Décédé</span>
                             @else
-                                <span class="badge-status badge-active">Actif</span>
+                                <span class="badge bg-success text-white rounded-pill">Actif</span>
                             @endif
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <a href="{{ route('bovins.show', $bovin) }}" class="btn btn-info">👁️</a>
+                                @can('update', $bovin)
                                 <a href="{{ route('bovins.edit', $bovin) }}" class="btn btn-warning">✏️</a>
+                                @endcan
+                                @can('delete', $bovin)
                                 <form method="POST" action="{{ route('bovins.destroy', $bovin) }}" style="display:inline;">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('Supprimer?')">🗑️</button>
                                 </form>
+                                @endcan
                             </div>
                         </td>
                     </tr>

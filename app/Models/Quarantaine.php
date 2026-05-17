@@ -11,11 +11,10 @@ class Quarantaine extends Model
 
     protected $table = 'quarantaines';
     protected $primaryKey = 'id_q';
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
-        'id_q',
         'libelle',
     ];
 

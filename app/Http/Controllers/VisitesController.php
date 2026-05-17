@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class VisitesController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Visite::class, 'visite');
+    }
+
     /**
      * Display a listing of visits.
      */

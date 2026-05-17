@@ -5,7 +5,15 @@ use App\Http\Controllers\BovinsController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\MedsController;
 use App\Http\Controllers\VisitesController;
+use App\Http\Controllers\EtablesController;
+use App\Http\Controllers\VendeursController;
+use App\Http\Controllers\VetosController;
+use App\Http\Controllers\TansporteursController;
+use App\Http\Controllers\VehiculesController;
+use App\Http\Controllers\QuarantainesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ActivityLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,7 +24,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'throttle:120,1'])->group(function () {
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -38,6 +46,18 @@ Route::middleware('auth')->group(function () {
 
     // Visites (Vet Visits) routes
     Route::resource('visites', VisitesController::class);
+
+    // Supporting Resources
+    Route::resource('etables', EtablesController::class);
+    Route::resource('vendeurs', VendeursController::class);
+    Route::resource('vetos', VetosController::class);
+    Route::resource('tansporteurs', TansporteursController::class);
+    Route::resource('vehicules', VehiculesController::class);
+    Route::resource('quarantaines', QuarantainesController::class);
+
+    // Admin-only
+    Route::resource('users', UsersController::class)->except(['create', 'store']);
+    Route::resource('logs', ActivityLogController::class)->only(['index', 'show']);
 });
 
 require __DIR__.'/auth.php';

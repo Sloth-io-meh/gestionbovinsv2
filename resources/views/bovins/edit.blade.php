@@ -4,6 +4,11 @@
 
 @section('content')
 <div class="container-fluid">
+    <x-breadcrumbs :items="[
+        '🐄 Bovins' => route('bovins.index'),
+        'Modifier' => route('bovins.edit', $bovin)
+    ]" />
+
     <h2>✏️ Modifier Bovin #{{ $bovin->id_bov }}</h2>
 
     <div class="card">
