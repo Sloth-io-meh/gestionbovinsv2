@@ -11,6 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Trust Railway's reverse proxy so $request->secure() and IP detection work correctly
+        $middleware->trustProxies(at: '*');
+
         // Apply security headers and sanitization middleware to all responses
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
         $middleware->append(\App\Http\Middleware\SanitizeInput::class);

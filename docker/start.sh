@@ -1,7 +1,5 @@
 #!/bin/sh
 
-cd /app
-
 echo "==> Generating app key if missing..."
 if [ -z "$APP_KEY" ]; then
     php artisan key:generate --force
@@ -10,7 +8,7 @@ fi
 echo "==> Discovering packages..."
 php artisan package:discover --ansi || true
 
-echo "==> Caching routes/views (config NOT cached — reads live env vars)..."
+echo "==> Caching routes/views (config reads live env vars at runtime)..."
 php artisan route:cache || true
 php artisan view:cache  || true
 
@@ -23,5 +21,9 @@ php artisan tinker --execute="if(DB::table('bovins')->count()==0){Artisan::call(
 echo "==> Linking storage..."
 php artisan storage:link 2>/dev/null || true
 
-echo "==> Starting server on port ${PORT:-8000}..."
-exec php artisan serve --host=0.0.0.0 --port="${PORT:-8000}"
+echo "==> Rendering nginx config for port ${PORT:-8080}..."
+export NGINX_PORT="${PORT:-8080}"
+envsubst '${NGINX_PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
+
+echo "==> Starting nginx + php-fpm via supervisord..."
+exec supervisord -c /etc/supervisor/conf.d/supervisord.conf
