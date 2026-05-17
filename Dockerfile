@@ -37,6 +37,8 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
+RUN mkdir -p /var/log/supervisor /var/log/nginx /run/nginx
+
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf.template
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/start.sh /start.sh
