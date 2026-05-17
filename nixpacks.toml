@@ -2,7 +2,7 @@
 cmds = [
   "composer install --no-dev --optimize-autoloader --no-scripts",
   "composer dump-autoload --optimize",
-  "npm ci --omit=dev"
+  "npm ci"
 ]
 
 [phases.build]
