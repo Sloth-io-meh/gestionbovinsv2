@@ -7,11 +7,25 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['email', 'nom', 'prenom'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
+
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +33,14 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'id',
         'name',
+        'nom',
+        'prenom',
+        'adresse',
+        'ville',
+        'code',
+        'tel',
         'email',
         'password',
     ];
