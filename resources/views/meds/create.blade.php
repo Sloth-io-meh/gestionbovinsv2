@@ -3,9 +3,11 @@
 @section('title', 'Ajouter Médicament')
 
 @section('content')
-<div class="container-fluid">
-    <h2>➕ Ajouter Médicament</h2>
-    <div class="card">
+    <h5 class="font-weight-bolder mb-4">Ajouter Médicament</h5>
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Ajouter Médicament</h6>
+        </div>
         <div class="card-body">
             <form method="POST" action="{{ route('meds.store') }}">
                 @csrf
@@ -43,5 +45,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

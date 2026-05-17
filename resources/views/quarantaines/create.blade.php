@@ -3,7 +3,7 @@
 @section('title', 'Ajouter Statut Quarantaine')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '🛡️ Quarantaines' => route('quarantaines.index'),
         'Ajouter' => route('quarantaines.create')
@@ -11,7 +11,7 @@
 
     <h2>➕ Ajouter un Statut de Quarantaine</h2>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-body">
             <form method="POST" action="{{ route('quarantaines.store') }}">
                 @csrf
@@ -29,5 +29,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

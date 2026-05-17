@@ -3,27 +3,29 @@
 @section('title', 'Médicaments')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="['💊 Médicaments' => route('meds.index')]" />
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>💊 Gestion des Médicaments</h2>
+        <h5 class="font-weight-bolder mb-4">💊 Gestion des Médicaments</h5>
         @can('create', App\Models\Meds::class)
         <a href="{{ route('meds.create') }}" class="btn btn-primary">+ Ajouter</a>
         @endcan
     </div>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Liste des Médicaments</h6>
+        </div>
         <div class="table-responsive">
             <table class="table table-sm table-hover mb-0">
-                <thead class="table-dark">
+                <thead>
                     <tr>
-                        <th>Libellé</th>
-                        <th>Quantité</th>
-                        <th>Prix Unitaire</th>
-                        <th>Date Expiration</th>
-                        <th>Statut</th>
-                        <th>Actions</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Libellé</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix Unitaire</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Expiration</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Statut</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,5 +70,4 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $meds->links('pagination::bootstrap-5') }}
     </div>
-</div>
 @endsection

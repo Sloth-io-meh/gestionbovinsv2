@@ -3,7 +3,7 @@
 @section('title', 'Détails Véhicule')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '🚗 Véhicules' => route('vehicules.index'),
         'Détails' => route('vehicules.show', $vehicule)
@@ -16,7 +16,7 @@
         @endcan
     </div>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-body">
             <p><strong>ID:</strong> {{ $vehicule->id_veh }}</p>
             <p><strong>Matricule:</strong> {{ $vehicule->Matricule }}</p>
@@ -24,5 +24,4 @@
             <p><strong>Transporteur:</strong> {{ $vehicule->tansporteur?->nom }} {{ $vehicule->tansporteur?->prenom ?? '—' }}</p>
         </div>
     </div>
-</div>
 @endsection

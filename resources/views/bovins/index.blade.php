@@ -3,7 +3,6 @@
 @section('title', 'Bovins')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="['🐄 Bovins' => route('bovins.index')]" />
 
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -40,18 +39,21 @@
     </form>
 
     <!-- Bovins Table -->
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Liste des Bovins</h6>
+        </div>
         <div class="table-responsive">
-            <table class="table table-sm table-hover mb-0">
-                <thead class="table-dark">
+            <table class="table align-items-center mb-0">
+                <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Race</th>
-                        <th>Date Achat</th>
-                        <th>Prix Achat</th>
-                        <th>Étable</th>
-                        <th>Statut</th>
-                        <th>Actions</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Race</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Achat</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix Achat</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Étable</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Statut</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,5 +105,4 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $bovins->links('pagination::bootstrap-5') }}
     </div>
-</div>
 @endsection

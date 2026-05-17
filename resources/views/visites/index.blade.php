@@ -3,27 +3,29 @@
 @section('title', 'Visites Vétérinaires')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="['🏥 Visites' => route('visites.index')]" />
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>🏥 Visites Vétérinaires</h2>
+        <h5 class="font-weight-bolder mb-4">🏥 Visites Vétérinaires</h5>
         @can('create', App\Models\Visite::class)
         <a href="{{ route('visites.create') }}" class="btn btn-primary">+ Ajouter</a>
         @endcan
     </div>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Liste des Visites</h6>
+        </div>
         <div class="table-responsive">
             <table class="table table-sm table-hover mb-0">
-                <thead class="table-dark">
+                <thead>
                     <tr>
-                        <th>Animal</th>
-                        <th>Vétérinaire</th>
-                        <th>Date</th>
-                        <th>Prix</th>
-                        <th>Description</th>
-                        <th>Actions</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Animal</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Vétérinaire</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,5 +62,4 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $visites->links('pagination::bootstrap-5') }}
     </div>
-</div>
 @endsection

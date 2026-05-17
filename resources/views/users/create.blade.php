@@ -3,7 +3,7 @@
 @section('title', 'Nouvel Utilisateur')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '👥 Utilisateurs' => route('users.index'),
         'Créer' => route('users.create')
@@ -11,7 +11,7 @@
 
     <h2>➕ Créer un Utilisateur</h2>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-body">
             <form method="POST" action="{{ route('users.store') }}" autocomplete="off">
                 @csrf
@@ -82,5 +82,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

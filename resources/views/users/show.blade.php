@@ -3,7 +3,7 @@
 @section('title', 'Détails Utilisateur')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '👥 Utilisateurs' => route('users.index'),
         'Détails' => route('users.show', $user)
@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class="card mb-4">
+    <div class="card shadow mb-4">
         <div class="card-header"><strong>Informations</strong></div>
         <div class="card-body">
             <dl class="row mb-0">
@@ -56,5 +56,4 @@
             </dl>
         </div>
     </div>
-</div>
 @endsection

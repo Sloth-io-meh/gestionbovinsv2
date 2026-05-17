@@ -3,7 +3,7 @@
 @section('title', 'Détails Quarantaine')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '🛡️ Quarantaines' => route('quarantaines.index'),
         'Détails' => route('quarantaines.show', $quarantaine)
@@ -16,11 +16,10 @@
         @endcan
     </div>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-body">
             <p><strong>ID:</strong> {{ $quarantaine->id_q }}</p>
             <p><strong>Libellé:</strong> {{ $quarantaine->libelle }}</p>
         </div>
     </div>
-</div>
 @endsection

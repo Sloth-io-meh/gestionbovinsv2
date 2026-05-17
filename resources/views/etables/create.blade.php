@@ -3,15 +3,17 @@
 @section('title', 'Ajouter une Étable')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="[
         '🏠 Étables' => route('etables.index'),
         'Ajouter' => route('etables.create')
     ]" />
 
-    <h2>➕ Ajouter une Étable</h2>
+    <h5 class="font-weight-bolder mb-4">Ajouter une Étable</h5>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Ajouter une Étable</h6>
+        </div>
         <div class="card-body">
             <form method="POST" action="{{ route('etables.store') }}">
                 @csrf
@@ -29,5 +31,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

@@ -3,7 +3,7 @@
 @section('title', 'Réinitialiser le mot de passe')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '👥 Utilisateurs' => route('users.index'),
         $user->name => route('users.show', $user),
@@ -41,5 +41,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

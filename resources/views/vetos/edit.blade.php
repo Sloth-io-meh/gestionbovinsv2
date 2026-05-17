@@ -3,15 +3,17 @@
 @section('title', 'Modifier Vétérinaire')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="[
         '🩺 Vétos' => route('vetos.index'),
         'Modifier' => route('vetos.edit', $veto)
     ]" />
 
-    <h2>✏️ Modifier Vétérinaire: {{ $veto->nom_vet }} {{ $veto->prenom_vet }}</h2>
+    <h5 class="font-weight-bolder mb-4">Modifier Vétérinaire: {{ $veto->nom_vet }} {{ $veto->prenom_vet }}</h5>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Modifier Vétérinaire</h6>
+        </div>
         <div class="card-body">
             <form method="POST" action="{{ route('vetos.update', $veto) }}">
                 @csrf
@@ -42,5 +44,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

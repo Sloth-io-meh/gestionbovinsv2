@@ -3,15 +3,17 @@
 @section('title', 'Modifier Étable')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="[
         '🏠 Étables' => route('etables.index'),
         'Modifier' => route('etables.edit', $etable)
     ]" />
 
-    <h2>✏️ Modifier l'Étable: {{ $etable->nom }}</h2>
+    <h5 class="font-weight-bolder mb-4">Modifier l'Étable: {{ $etable->nom }}</h5>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Modifier Étable</h6>
+        </div>
         <div class="card-body">
             <form method="POST" action="{{ route('etables.update', $etable) }}">
                 @csrf
@@ -30,5 +32,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

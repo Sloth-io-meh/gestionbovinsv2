@@ -3,24 +3,26 @@
 @section('title', 'Étables')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="['🏠 Étables' => route('etables.index')]" />
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>🏠 Gestion des Étables</h2>
+        <h5 class="font-weight-bolder mb-4">🏠 Gestion des Étables</h5>
         @can('create', App\Models\Etable::class)
         <a href="{{ route('etables.create') }}" class="btn btn-primary">+ Ajouter une Étable</a>
         @endcan
     </div>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Liste des Étables</h6>
+        </div>
         <div class="card-body">
             <table class="table table-sm table-hover mb-0">
-                <thead class="table-dark">
+                <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Actions</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,5 +54,4 @@
             </div>
         </div>
     </div>
-</div>
 @endsection

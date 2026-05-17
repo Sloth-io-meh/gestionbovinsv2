@@ -3,10 +3,12 @@
 @section('title', $bovin->id_bov ? 'Modifier Bovin' : 'Ajouter Bovin')
 
 @section('content')
-<div class="container-fluid">
-    <h2>{{ $bovin->id_bov ? '✏️ Modifier Bovin' : '➕ Ajouter un Bovin' }}</h2>
+    <h5 class="font-weight-bolder mb-4">{{ $bovin->id_bov ? '✏️ Modifier Bovin' : '➕ Ajouter un Bovin' }}</h5>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Informations du Bovin</h6>
+        </div>
         <div class="card-body">
             <form method="POST" action="{{ $bovin->id_bov ? route('bovins.update', $bovin) : route('bovins.store') }}">
                 @csrf
@@ -104,5 +106,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

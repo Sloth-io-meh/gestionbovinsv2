@@ -3,7 +3,7 @@
 @section('title', 'Modifier Utilisateur')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '👥 Utilisateurs' => route('users.index'),
         'Modifier' => route('users.edit', $user)
@@ -11,7 +11,7 @@
 
     <h2>✏️ Modifier: {{ $user->name }}</h2>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-body">
             <form method="POST" action="{{ route('users.update', $user) }}">
                 @csrf
@@ -75,5 +75,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

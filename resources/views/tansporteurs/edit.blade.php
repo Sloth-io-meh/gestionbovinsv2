@@ -3,7 +3,7 @@
 @section('title', 'Modifier Transporteur')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '🚛 Transp.' => route('tansporteurs.index'),
         'Modifier' => route('tansporteurs.edit', $tansporteur)
@@ -11,7 +11,7 @@
 
     <h2>✏️ Modifier Transporteur: {{ $tansporteur->nom }} {{ $tansporteur->prenom }}</h2>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-body">
             <form method="POST" action="{{ route('tansporteurs.update', $tansporteur) }}">
                 @csrf
@@ -47,5 +47,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

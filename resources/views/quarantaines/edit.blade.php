@@ -3,7 +3,7 @@
 @section('title', 'Modifier Quarantaine')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '🛡️ Quarantaines' => route('quarantaines.index'),
         'Modifier' => route('quarantaines.edit', $quarantaine)
@@ -11,7 +11,7 @@
 
     <h2>✏️ Modifier Statut Quarantaine: {{ $quarantaine->libelle }}</h2>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-body">
             <form method="POST" action="{{ route('quarantaines.update', $quarantaine) }}">
                 @csrf
@@ -30,5 +30,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

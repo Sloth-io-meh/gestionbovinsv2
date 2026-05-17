@@ -3,7 +3,7 @@
 @section('title', 'Utilisateurs')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="['👥 Utilisateurs' => route('users.index')]" />
 
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -14,10 +14,10 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="table-responsive">
             <table class="table table-sm table-hover mb-0">
-                <thead class="table-dark">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nom</th>
@@ -71,5 +71,4 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $users->links('pagination::bootstrap-5') }}
     </div>
-</div>
 @endsection

@@ -3,7 +3,7 @@
 @section('title', 'Ajouter un Transporteur')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '🚛 Transp.' => route('tansporteurs.index'),
         'Ajouter' => route('tansporteurs.create')
@@ -11,7 +11,7 @@
 
     <h2>➕ Ajouter un Transporteur</h2>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-body">
             <form method="POST" action="{{ route('tansporteurs.store') }}">
                 @csrf
@@ -46,5 +46,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

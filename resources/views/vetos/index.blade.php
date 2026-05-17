@@ -3,26 +3,28 @@
 @section('title', 'Vétos')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="['🩺 Vétos' => route('vetos.index')]" />
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>🩺 Gestion des Vétérinaires</h2>
+        <h5 class="font-weight-bolder mb-4">🩺 Gestion des Vétérinaires</h5>
         @can('create', App\Models\Veto::class)
         <a href="{{ route('vetos.create') }}" class="btn btn-primary">+ Ajouter un Vétérinaire</a>
         @endcan
     </div>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Liste des Vétérinaires</h6>
+        </div>
         <div class="card-body">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Téléphone</th>
-                        <th>Actions</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prénom</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Téléphone</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,5 +56,4 @@
             {{ $vetos->links() }}
         </div>
     </div>
-</div>
 @endsection

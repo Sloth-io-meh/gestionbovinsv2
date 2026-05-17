@@ -3,9 +3,11 @@
 @section('title', 'Modifier Visite')
 
 @section('content')
-<div class="container-fluid">
-    <h2>✏️ Modifier Visite</h2>
-    <div class="card">
+    <h5 class="font-weight-bolder mb-4">Modifier Visite</h5>
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Modifier Visite</h6>
+        </div>
         <div class="card-body">
             <form method="POST" action="{{ route('visites.update', $visite) }}">
                 @csrf @method('PUT')
@@ -44,5 +46,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

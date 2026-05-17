@@ -3,27 +3,29 @@
 @section('title', 'Stock')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="['📦 Stock' => route('stock.index')]" />
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>📦 Gestion du Stock</h2>
+        <h5 class="font-weight-bolder mb-4">📦 Gestion du Stock</h5>
         @can('create', App\Models\Stock::class)
         <a href="{{ route('stock.create') }}" class="btn btn-primary">+ Ajouter</a>
         @endcan
     </div>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Liste du Stock</h6>
+        </div>
         <div class="table-responsive">
             <table class="table table-sm table-hover mb-0">
-                <thead class="table-dark">
+                <thead>
                     <tr>
-                        <th>Libellé</th>
-                        <th>Quantité Total</th>
-                        <th>Quantité Actuelle</th>
-                        <th>Prix Unitaire</th>
-                        <th>Date Expiration</th>
-                        <th>Actions</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Libellé</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité Total</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité Actuelle</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix Unitaire</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Expiration</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,5 +62,4 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $stock->links('pagination::bootstrap-5') }}
     </div>
-</div>
 @endsection

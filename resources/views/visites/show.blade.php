@@ -3,9 +3,11 @@
 @section('title', 'Visite')
 
 @section('content')
-<div class="container-fluid">
-    <h2>🏥 Visite #{{ $visite->id_pres }}</h2>
-    <div class="card">
+    <h5 class="font-weight-bolder mb-4">🏥 Visite #{{ $visite->id_pres }}</h5>
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Détails de la Visite</h6>
+        </div>
         <div class="card-body">
             <dl class="row">
                 <dt class="col-sm-3">Animal:</dt>
@@ -27,5 +29,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

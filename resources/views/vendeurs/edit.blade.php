@@ -3,15 +3,17 @@
 @section('title', 'Modifier Vendeur')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="[
         '🤝 Vendeurs' => route('vendeurs.index'),
         'Modifier' => route('vendeurs.edit', $vendeur)
     ]" />
 
-    <h2>✏️ Modifier Vendeur: {{ $vendeur->nom_vend }} {{ $vendeur->prenom_vend }}</h2>
+    <h5 class="font-weight-bolder mb-4">Modifier Vendeur: {{ $vendeur->nom_vend }} {{ $vendeur->prenom_vend }}</h5>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Modifier Vendeur</h6>
+        </div>
         <div class="card-body">
             <form method="POST" action="{{ route('vendeurs.update', $vendeur) }}">
                 @csrf
@@ -47,5 +49,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

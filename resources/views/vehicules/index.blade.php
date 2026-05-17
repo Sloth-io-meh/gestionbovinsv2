@@ -3,7 +3,7 @@
 @section('title', 'Véhicules')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="['🚗 Véhicules' => route('vehicules.index')]" />
 
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -13,7 +13,7 @@
         @endcan
     </div>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-body">
             <table class="table table-hover">
                 <thead>
@@ -54,5 +54,4 @@
             {{ $vehicules->links() }}
         </div>
     </div>
-</div>
 @endsection

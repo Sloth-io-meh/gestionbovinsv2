@@ -22,10 +22,10 @@ class SecurityHeaders
         $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
         $response->headers->set('Content-Security-Policy',
             "default-src 'self'; " .
-            "script-src 'self' 'nonce-{$nonce}' https://cdn.jsdelivr.net; " .
-            "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " .
+            "script-src 'self' 'nonce-{$nonce}'; " .
+            "style-src 'self' 'unsafe-inline'; " .
             "img-src 'self' data:; " .
-            "font-src 'self' data: https://fonts.bunny.net; " .
+            "font-src 'self' data:; " .
             "connect-src 'self'; " .
             "object-src 'none'; " .
             "base-uri 'self'; " .

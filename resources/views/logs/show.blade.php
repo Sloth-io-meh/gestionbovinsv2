@@ -3,7 +3,7 @@
 @section('title', 'Détail Log')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="[
         '📋 Logs' => route('logs.index'),
         'Détail' => route('logs.show', $log)
@@ -11,7 +11,7 @@
 
     <h2 class="mb-4">📋 Log #{{ $log->id }}</h2>
 
-    <div class="card mb-4">
+    <div class="card shadow mb-4">
         <div class="card-header"><strong>Informations</strong></div>
         <div class="card-body">
             <dl class="row mb-0">
@@ -46,7 +46,7 @@
     </div>
 
     @if($log->properties && $log->properties->isNotEmpty())
-    <div class="card">
+    <div class="card shadow">
         <div class="card-header"><strong>Données</strong></div>
         <div class="card-body">
             @if($log->properties->has('old') || $log->properties->has('attributes'))
@@ -88,5 +88,4 @@
     <div class="mt-3">
         <a href="{{ route('logs.index') }}" class="btn btn-secondary">← Retour aux logs</a>
     </div>
-</div>
 @endsection

@@ -3,7 +3,6 @@
 @section('title', 'Bovin #' . $bovin->id_bov)
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="[
         '🐄 Bovins' => route('bovins.index'),
         'Animal #' . $bovin->id_bov => route('bovins.show', $bovin),
@@ -22,9 +21,9 @@
     <div class="row">
         <!-- Information -->
         <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Informations Générales</h5>
+            <div class="card shadow mb-4">
+                <div class="card-header pb-0">
+                    <h6 class="mb-0 font-weight-bolder">Informations Générales</h5>
                 </div>
                 <div class="card-body">
                     <dl class="row">
@@ -63,9 +62,9 @@
 
         <!-- Achat -->
         <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Achat</h5>
+            <div class="card shadow mb-4">
+                <div class="card-header pb-0">
+                    <h6 class="mb-0 font-weight-bolder">Achat</h5>
                 </div>
                 <div class="card-body">
                     <dl class="row">
@@ -88,9 +87,9 @@
         <!-- Vente -->
         @if($bovin->vendu)
         <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0">Vente</h5>
+            <div class="card shadow mb-4">
+                <div class="card-header pb-0">
+                    <h6 class="mb-0 font-weight-bolder">Vente</h6>
                 </div>
                 <div class="card-body">
                     <dl class="row">
@@ -133,9 +132,9 @@
         </div>
         @else
         <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Poids Actuel</h5>
+            <div class="card shadow mb-4">
+                <div class="card-header pb-0">
+                    <h6 class="mb-0 font-weight-bolder">Poids Actuel</h5>
                 </div>
                 <div class="card-body">
                     <p class="mb-3">Poids: <strong>{{ $bovin->poidAct ?? '?' }} kg</strong></p>
@@ -154,9 +153,9 @@
         <!-- Mort -->
         @if($bovin->mort)
         <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-header bg-danger text-white">
-                    <h5 class="mb-0">Décès</h5>
+            <div class="card shadow mb-4">
+                <div class="card-header pb-0">
+                    <h6 class="mb-0 font-weight-bolder">Décès</h6>
                 </div>
                 <div class="card-body">
                     <dl class="row">
@@ -171,9 +170,9 @@
         <!-- Journaux (Logs) -->
         @if($bovin->nourriture->count() > 0)
         <div class="col-md-12">
-            <div class="card mb-4">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Alimentation ({{ $bovin->nourriture->count() }} entrées)</h5>
+            <div class="card shadow mb-4">
+                <div class="card-header pb-0">
+                    <h6 class="mb-0 font-weight-bolder">Alimentation ({{ $bovin->nourriture->count() }} entrées)</h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-sm mb-0">
@@ -197,9 +196,9 @@
 
         @if($bovin->medicsconsumed->count() > 0)
         <div class="col-md-12">
-            <div class="card mb-4">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Médicaments ({{ $bovin->medicsconsumed->count() }} entrées)</h5>
+            <div class="card shadow mb-4">
+                <div class="card-header pb-0">
+                    <h6 class="mb-0 font-weight-bolder">Médicaments ({{ $bovin->medicsconsumed->count() }} entrées)</h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-sm mb-0">
@@ -223,9 +222,9 @@
 
         @if($bovin->visites->count() > 0)
         <div class="col-md-12">
-            <div class="card mb-4">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Visites Vétérinaires ({{ $bovin->visites->count() }} entrées)</h5>
+            <div class="card shadow mb-4">
+                <div class="card-header pb-0">
+                    <h6 class="mb-0 font-weight-bolder">Visites Vétérinaires ({{ $bovin->visites->count() }} entrées)</h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-sm mb-0">
@@ -250,7 +249,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="card mt-4">
+    <div class="card shadow mt-4">
         <div class="card-body d-flex flex-wrap gap-2">
             @can('update', $bovin)
                 @if(!$bovin->vendu && !$bovin->mort)
@@ -276,7 +275,6 @@
             @endcan
         </div>
     </div>
-</div>
 
 <!-- Mark Sold Modal -->
 <div class="modal fade" id="markSoldModal" tabindex="-1">

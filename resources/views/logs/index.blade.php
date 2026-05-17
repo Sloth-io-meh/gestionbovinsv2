@@ -3,7 +3,7 @@
 @section('title', 'Journal d\'activité')
 
 @section('content')
-<div class="container-fluid">
+
     <x-breadcrumbs :items="['📋 Logs' => route('logs.index')]" />
 
     <h2 class="mb-4">📋 Journal d'activité</h2>
@@ -34,10 +34,10 @@
         </div>
     </form>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="table-responsive">
             <table class="table table-sm table-hover mb-0">
-                <thead class="table-dark">
+                <thead>
                     <tr>
                         <th>Date</th>
                         <th>Type</th>
@@ -86,5 +86,4 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $logs->links('pagination::bootstrap-5') }}
     </div>
-</div>
 @endsection

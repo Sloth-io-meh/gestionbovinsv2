@@ -3,15 +3,17 @@
 @section('title', 'Ajouter un Bovin')
 
 @section('content')
-<div class="container-fluid">
     <x-breadcrumbs :items="[
         '🐄 Bovins' => route('bovins.index'),
         'Ajouter' => route('bovins.create')
     ]" />
 
-    <h2>➕ Ajouter un Bovin</h2>
+    <h5 class="font-weight-bolder mb-4">➕ Ajouter un Bovin</h5>
 
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Informations du Bovin</h6>
+        </div>
         <div class="card-body">
             <form method="POST" action="{{ route('bovins.store') }}">
                 @csrf
@@ -99,5 +101,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

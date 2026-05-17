@@ -3,9 +3,11 @@
 @section('title', 'Ajouter Stock')
 
 @section('content')
-<div class="container-fluid">
-    <h2>➕ Ajouter Stock</h2>
-    <div class="card">
+    <h5 class="font-weight-bolder mb-4">Ajouter Stock</h5>
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Ajouter Stock</h6>
+        </div>
         <div class="card-body">
             <form method="POST" action="{{ route('stock.store') }}">
                 @csrf
@@ -45,5 +47,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection

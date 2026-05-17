@@ -3,9 +3,11 @@
 @section('title', 'Stock')
 
 @section('content')
-<div class="container-fluid">
-    <h2>Stock #{{ $stock->id_stock }}</h2>
-    <div class="card">
+    <h5 class="font-weight-bolder mb-4">Stock #{{ $stock->id_stock }}</h5>
+    <div class="card shadow">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 font-weight-bolder">Détails du Stock</h6>
+        </div>
         <div class="card-body">
             <dl class="row">
                 <dt class="col-sm-3">Libellé:</dt>
@@ -29,5 +31,4 @@
             </form>
         </div>
     </div>
-</div>
 @endsection
