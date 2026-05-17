@@ -8,9 +8,9 @@
         <title>@yield('title', config('app.name', 'GestionBovins')) - GestionBovins</title>
 
         <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        
-        <style>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+        <style nonce="{{ $cspNonce }}">
             :root {
                 --bs-body-bg: #f5f5f5;
             }
@@ -122,6 +122,25 @@
         </div>
 
         <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+        <!-- Delegated confirm handler — replaces all inline onclick/onsubmit confirm() calls -->
+        <script nonce="{{ $cspNonce }}">
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('submit', function (e) {
+                var msg = e.target.dataset.confirm;
+                if (msg && !confirm(msg)) e.preventDefault();
+            });
+            document.addEventListener('click', function (e) {
+                var btn = e.target.closest('button[data-confirm]');
+                if (btn && !confirm(btn.dataset.confirm)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+        });
+        </script>
+
+        @stack('scripts')
     </body>
 </html>

@@ -39,7 +39,7 @@
                                 <a href="{{ route('vendeurs.edit', $vendeur) }}" class="btn btn-sm btn-warning">✏️</a>
                                 @endcan
                                 @can('delete', $vendeur)
-                                <form action="{{ route('vendeurs.destroy', $vendeur) }}" method="POST" onsubmit="return confirm('Confirmer la suppression ?')">
+                                <form action="{{ route('vendeurs.destroy', $vendeur) }}" method="POST" data-confirm="Confirmer la suppression ?">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">🗑️</button>

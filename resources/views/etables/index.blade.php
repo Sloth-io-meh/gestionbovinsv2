@@ -35,7 +35,7 @@
                                 <a href="{{ route('etables.edit', $etable) }}" class="btn btn-sm btn-warning">✏️</a>
                                 @endcan
                                 @can('delete', $etable)
-                                <form action="{{ route('etables.destroy', $etable) }}" method="POST" onsubmit="return confirm('Confirmer la suppression ?')">
+                                <form action="{{ route('etables.destroy', $etable) }}" method="POST" data-confirm="Confirmer la suppression ?">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">🗑️</button>

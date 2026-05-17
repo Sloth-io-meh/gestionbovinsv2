@@ -260,7 +260,7 @@
                     @if($bovin->quarantaine)
                         <form method="POST" action="{{ route('bovins.remove-quarantine', $bovin) }}" style="display:inline;">
                             @csrf
-                            <button type="submit" class="btn btn-warning" onclick="return confirm('Retirer de la quarantaine ?')">🟡 Retirer de la quarantaine</button>
+                            <button type="submit" class="btn btn-warning" data-confirm="Retirer de la quarantaine ?">🟡 Retirer de la quarantaine</button>
                         </form>
                     @else
                         <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#addQuarantineModal">🔒 Mettre en quarantaine</button>
@@ -271,7 +271,7 @@
             @can('delete', $bovin)
                 <form method="POST" action="{{ route('bovins.destroy', $bovin) }}" style="display: inline;">
                     @csrf @method('DELETE')
-                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Êtes-vous sûr?')">🗑️ Supprimer</button>
+                    <button type="submit" class="btn btn-outline-danger" data-confirm="Êtes-vous sûr?">🗑️ Supprimer</button>
                 </form>
             @endcan
         </div>
@@ -402,7 +402,7 @@
 </div>
 
 @push('scripts')
-<script>
+<script nonce="{{ $cspNonce }}">
     // Filter vehicles by selected transporter
     const transporteurSelect = document.getElementById('transporteurSelect');
     const vehiculeSelect = document.getElementById('vehiculeSelect');

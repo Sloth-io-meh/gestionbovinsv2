@@ -35,7 +35,7 @@
                                 <a href="{{ route('quarantaines.edit', $quarantaine) }}" class="btn btn-sm btn-warning">✏️</a>
                                 @endcan
                                 @can('delete', $quarantaine)
-                                <form action="{{ route('quarantaines.destroy', $quarantaine) }}" method="POST" onsubmit="return confirm('Confirmer la suppression ?')">
+                                <form action="{{ route('quarantaines.destroy', $quarantaine) }}" method="POST" data-confirm="Confirmer la suppression ?">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">🗑️</button>

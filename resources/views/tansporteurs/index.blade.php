@@ -39,7 +39,7 @@
                                 <a href="{{ route('tansporteurs.edit', $tansporteur) }}" class="btn btn-warning">✏️</a>
                                 @endcan
                                 @can('delete', $tansporteur)
-                                <form action="{{ route('tansporteurs.destroy', $tansporteur) }}" method="POST" onsubmit="return confirm('Confirmer la suppression ?')" style="display:inline;">
+                                <form action="{{ route('tansporteurs.destroy', $tansporteur) }}" method="POST" data-confirm="Confirmer la suppression ?" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">🗑️</button>

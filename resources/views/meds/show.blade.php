@@ -23,7 +23,7 @@
             <a href="{{ route('meds.edit', $meds) }}" class="btn btn-warning">✏️ Modifier</a>
             <form method="POST" action="{{ route('meds.destroy', $meds) }}" style="display:inline;">
                 @csrf @method('DELETE')
-                <button class="btn btn-danger" onclick="return confirm('Supprimer?')">🗑️ Supprimer</button>
+                <button class="btn btn-danger" data-confirm="Supprimer?">🗑️ Supprimer</button>
             </form>
         </div>
     </div>

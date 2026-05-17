@@ -83,7 +83,7 @@
                                 @can('delete', $bovin)
                                 <form method="POST" action="{{ route('bovins.destroy', $bovin) }}" style="display:inline;">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Supprimer?')">🗑️</button>
+                                    <button type="submit" class="btn btn-danger" data-confirm="Supprimer?">🗑️</button>
                                 </form>
                                 @endcan
                             </div>

@@ -51,7 +51,7 @@
                                 @can('delete', $med)
                                 <form method="POST" action="{{ route('meds.destroy', $med) }}" style="display:inline;">
                                     @csrf @method('DELETE')
-                                    <button class="btn btn-danger" onclick="return confirm('Supprimer?')">🗑️</button>
+                                    <button class="btn btn-danger" data-confirm="Supprimer?">🗑️</button>
                                 </form>
                                 @endcan
                             </div>

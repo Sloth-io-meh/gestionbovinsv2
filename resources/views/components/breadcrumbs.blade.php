@@ -13,7 +13,7 @@
     </ol>
 </nav>
 
-<style>
+<style nonce="{{ $cspNonce }}">
     .breadcrumb {
         background: transparent;
         padding: 0;

@@ -54,7 +54,7 @@
                                 @if($user->id !== auth()->id())
                                 <form method="POST" action="{{ route('users.destroy', $user) }}" style="display:inline;">
                                     @csrf @method('DELETE')
-                                    <button class="btn btn-danger" onclick="return confirm('Supprimer {{ $user->name }} ?')">🗑️</button>
+                                    <button class="btn btn-danger" data-confirm="Supprimer {{ $user->name }} ?">🗑️</button>
                                 </form>
                                 @endif
                             </div>
