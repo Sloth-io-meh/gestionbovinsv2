@@ -25,5 +25,11 @@ echo "==> Rendering nginx config for port ${PORT:-8080}..."
 export NGINX_PORT="${PORT:-8080}"
 envsubst '${NGINX_PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
 
+echo "==> Creating runtime dirs (tmpfs is wiped on each start)..."
+mkdir -p /run/nginx /var/log/nginx /var/log/supervisor
+
+echo "==> Testing nginx config..."
+nginx -t 2>&1 || { echo "FATAL: nginx config invalid"; exit 1; }
+
 echo "==> Starting nginx + php-fpm via supervisord..."
 exec supervisord -c /etc/supervisor/conf.d/supervisord.conf
