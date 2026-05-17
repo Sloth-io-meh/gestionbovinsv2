@@ -15,11 +15,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Call seeders in order of dependencies
+        $this->call([
+            QuarantaineSeeder::class,  // Lookup table first
+            UserSeeder::class,         // Users
+            EtableSeeder::class,       // Farms
+            VendeurSeeder::class,      // Sellers
+            BovinSeeder::class,        // Cattle
+            StockSeeder::class,        // Feed inventory
+            MedsSeeder::class,         // Medicines
+            MedicsconsumedSeeder::class, // Medicine logs
+            NourritureSeeder::class,   // Feeding logs
+            TansporteurSeeder::class,  // Transporters
+            VehiculeSeeder::class,     // Vehicles
+            VetoSeeder::class,         // Veterinarians
+            VisiteSeeder::class,       // Vet visits
         ]);
     }
 }
