@@ -22,19 +22,20 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy composer files + artisan (post-autoload hook needs artisan to exist)
-COPY composer.json composer.lock artisan ./
-RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress
-
-# Copy package files and build frontend assets
-COPY package.json package-lock.json vite.config.js postcss.config.js tailwind.config.js ./
-RUN npm ci --omit=dev
-COPY resources ./resources
-COPY public ./public
-RUN npm run build
-
-# Copy remaining application code
+# Copy entire application first so artisan and app/ are available
 COPY . .
+
+# Install PHP dependencies (skip post-install scripts — artisan needs DB which isn't here yet)
+RUN composer install \
+    --optimize-autoloader \
+    --no-dev \
+    --no-interaction \
+    --no-progress \
+    --no-scripts \
+    && composer dump-autoload --optimize
+
+# Build frontend assets
+RUN npm ci --omit=dev && npm run build && rm -rf node_modules
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
