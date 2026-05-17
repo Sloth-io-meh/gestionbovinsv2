@@ -23,6 +23,30 @@ class UsersController extends Controller
         return view('users.index', compact('users'));
     }
 
+    public function create()
+    {
+        return view('users.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name'                  => 'required|string|max:255',
+            'email'                 => 'required|email|max:255|unique:users,email',
+            'password'              => 'required|string|min:8|confirmed',
+            'nom'                   => 'nullable|string|max:100',
+            'prenom'                => 'nullable|string|max:100',
+            'tel'                   => 'nullable|string|max:25',
+            'is_admin'              => 'boolean',
+        ]);
+
+        $validated['is_admin'] = $request->boolean('is_admin');
+
+        User::create($validated);
+
+        return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès.');
+    }
+
     public function show(User $user)
     {
         return view('users.show', compact('user'));
@@ -49,6 +73,23 @@ class UsersController extends Controller
         $user->update($validated);
 
         return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour.');
+    }
+
+    public function editPassword(User $user)
+    {
+        return view('users.password', compact('user'));
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user->update(['password' => $request->password]);
+
+        return redirect()->route('users.show', $user)
+            ->with('success', 'Mot de passe réinitialisé avec succès.');
     }
 
     public function destroy(User $user)

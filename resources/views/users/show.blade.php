@@ -11,7 +11,10 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>👤 {{ $user->name }}</h2>
-        <a href="{{ route('users.edit', $user) }}" class="btn btn-warning">✏️ Modifier</a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('users.edit', $user) }}" class="btn btn-warning">✏️ Modifier</a>
+            <a href="{{ route('users.edit-password', $user) }}" class="btn btn-secondary">🔑 Réinitialiser MDP</a>
+        </div>
     </div>
 
     <div class="card mb-4">

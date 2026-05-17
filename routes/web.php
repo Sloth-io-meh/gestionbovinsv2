@@ -56,7 +56,9 @@ Route::middleware(['auth', 'throttle:120,1'])->group(function () {
     Route::resource('quarantaines', QuarantainesController::class);
 
     // Admin-only
-    Route::resource('users', UsersController::class)->except(['create', 'store']);
+    Route::resource('users', UsersController::class);
+    Route::get('users/{user}/password', [UsersController::class, 'editPassword'])->name('users.edit-password');
+    Route::patch('users/{user}/password', [UsersController::class, 'updatePassword'])->name('users.update-password');
     Route::resource('logs', ActivityLogController::class)->only(['index', 'show']);
 });
 

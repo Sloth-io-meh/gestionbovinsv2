@@ -8,7 +8,10 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>👥 Gestion des Utilisateurs</h2>
-        <span class="badge bg-secondary">{{ $users->total() }} utilisateur(s)</span>
+        <div class="d-flex align-items-center gap-3">
+            <span class="badge bg-secondary">{{ $users->total() }} utilisateur(s)</span>
+            <a href="{{ route('users.create') }}" class="btn btn-success btn-sm">➕ Nouvel utilisateur</a>
+        </div>
     </div>
 
     <div class="card">
@@ -47,6 +50,7 @@
                             <div class="btn-group btn-group-sm">
                                 <a href="{{ route('users.show', $user) }}" class="btn btn-info">👁️</a>
                                 <a href="{{ route('users.edit', $user) }}" class="btn btn-warning">✏️</a>
+                                <a href="{{ route('users.edit-password', $user) }}" class="btn btn-secondary" title="Réinitialiser le mot de passe">🔑</a>
                                 @if($user->id !== auth()->id())
                                 <form method="POST" action="{{ route('users.destroy', $user) }}" style="display:inline;">
                                     @csrf @method('DELETE')
